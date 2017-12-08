@@ -1,0 +1,140 @@
+/*_VARIABLES-----------------------------------------------------------------------*/
+
+$white: #fff;
+$transparent: rgba(0, 0, 0, 0);
+$form-input-bdr-err: #700;
+$form-input-txt-err: $form-input-bdr-err;
+$form-error-bg-color: #f5f7f9;
+$error-bubble-txt: $white;
+$form-input-valid-back: #eff8f0;
+$form-input-valid-bdr: #788c0e;
+$error-bubble-txt: $white;
+
+/*_MIX-INS-----------------------------------------------------------------------*/
+
+.error-insert {
+	margin: -6px 12px 0px 1px;
+	padding: 0;
+	text-align: center;
+	pointer-events: none;
+	background-image: none;
+	display: inline-block;
+	font-size: 1.5em;
+	width: 10px;
+	height: 10px;
+	content: '\00BB';
+}
+
+.form-input-font-err {
+	font-weight: bold;
+	color: $form-input-txt-err;
+}
+
+.form-error-bubble {
+	color: $error-bubble-txt;
+	background-color: $form-input-bdr-err;
+}
+
+.form-bubble-arrow-dflt {
+	position: absolute;
+	width: 0;
+	height: 0;
+}
+
+.form-bubble-arrow-dwn {
+	@extend .form-bubble-arrow-dflt;
+	display: block;
+	content: '';
+	border: 10px solid darken($form-input-bdr-err, 10%) $transparent $transparent $transparent;
+}
+
+.form-bubble-arrow-lft {
+	@extend .form-bubble-arrow-dflt;
+	display: block;
+	content: '';
+	border: 10px solid $transparent darken($form-input-bdr-err, 5%) $transparent $transparent;
+}
+
+//_ERRORS--------------------------------------------------------------------*/
+.greenlight-error-inline {
+	position: relative;
+	top: 0;
+	left: 0;
+	width: 100%;
+	margin-top: 5px;
+	ul {
+		font-size: 12px;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		text-align: left;
+		li {
+			width: 100%;
+			margin-top: 3px;
+			margin-left: 0;
+			&:before {
+				@extend .error-insert;
+			}
+		}
+	}
+}
+
+.gw-form-radiobuttons {
+	.greenlight-error-inline {
+		ul {
+			margin-left: 0;
+		}
+	}
+}
+
+ul.parentError,
+li.parentError,
+div.parentError {
+	@extend .form-input-font-err;
+	padding: 10px 5px;
+	border: 1px dashed $form-input-bdr-err;
+	background: $form-error-bg-color;
+}
+
+.greenlight-error {
+	position: absolute;
+	right: 0;
+	width: auto;
+	span {
+		display: block;
+		width: 0;
+		height: 0;
+	}
+	ul {
+		@extend .form-error-bubble;
+		font-size: 12px;
+		line-height: 16px;
+		position: absolute;
+		top: 0;
+		display: block;
+		width: auto;
+		height: auto;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		text-align: left;
+		white-space: nowrap;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+		li {
+			margin: 10px;
+		}
+	} // when arrow is on side of bubble
+	ul.arrowLeft:before {
+		@extend .form-bubble-arrow-lft;
+		top: 8px;
+		left: -18px;
+	} // when arrow is on bottom of bubble
+	ul.arrowDown:after {
+		@extend .form-bubble-arrow-dwn;
+		bottom: -16px;
+		left: 1em;
+	}
+}
