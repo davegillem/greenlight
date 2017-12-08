@@ -1,7 +1,7 @@
-jQuery Ketchup Plugin - Tasty Form Validation
+Greenlight Form Validation - jQuery Plugin
 =============================================
 
-Ketchup is a small (3.4KB minified & gzipped) jQuery Plugin that helps you to validate your forms.
+Greenlight is a small (3.4KB minified & gzipped) jQuery Plugin that helps you to validate your forms.
 Out of the box it has 18 basic validations and a bubble like style. But truly this
 Plugin wants to be hacked to fit your needs. Easily write your own validations and overwrite/extend
 the default behaviour. Bubbles are not for everyone...
@@ -24,10 +24,10 @@ along with the latest jQuery version in your HTML header.
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <title>Yammie</title>
 
-        <link rel="stylesheet" type="text/css" media="screen" href="css/jquery.ketchup.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="css/jquery.greenlight.css" />
 
         <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
-        <script type="text/javascript" src="js/jquery.ketchup.all.min.js"></script>
+        <script type="text/javascript" src="js/jquery.greenlight.all.min.js"></script>
       </head>
 
       <body>
@@ -35,10 +35,10 @@ along with the latest jQuery version in your HTML header.
 
 ### Your HTML
 
-By default Ketchup checks the `data-validate` attribute of form fields if it can find matching
+By default Greenlight checks the `data-validate` attribute of form fields if it can find matching
 validations. The default indicator for validations is `validate()`, all validations
 go in there and are separated by comma. Validations can have arguments, also separated by comma.
-**About checkboxes**: You only need to declare the validations on one checkbox. Ketchup binds all other
+**About checkboxes**: You only need to declare the validations on one checkbox. Greenlight binds all other
 checkboxes with the same name automatically.
 
     <form id="default-behavior" action="index.html">
@@ -59,27 +59,27 @@ checkboxes with the same name automatically.
           <input type="checkbox" name="db-skill" /> Rails
         </li>
         <li>
-          <input type="submit" value="Is Tasty?" />
+          <input type="submit" value="Has a Greenlight?" />
         </li>
       </ul>
     </form>
 
 ### Your Javascript
 
-Just call `ketchup()` on your form, voilà.
+Just call `greenlight()` on your form, voilà.
 
-    $('#default-behavior').ketchup();
+    $('#default-behavior').greenlight();
 
 
 Declare fields to validate in the call
 --------------------------------------
 
-In last version Ketchup checked the `class` attribute for validations... which was not everyones taste
+In last version Greenlight checked the `class` attribute for validations... which was not everyones taste
 because `class` should be used for defining CSS classes. In HTML5 we have the `data-` attributes for the rescue
 to set custom data.
 
 However, if you still want to separate the validations declarations from your markup you can do so
-by passing an object with jQuery selectors as keys and validations as values to Ketchup.
+by passing an object with jQuery selectors as keys and validations as values to Greenlight.
 
 ### Your HTML
 
@@ -97,7 +97,7 @@ select the fields to validate.
           <input type="text" id="fic-username" class="required" />
         </li>
         <li>
-          <input type="submit" value="Is Tasty?" />
+          <input type="submit" value="Has a Greenlight?" />
         </li>
       </ul>
     </form>
@@ -108,7 +108,7 @@ Right after the options (empty here `{}`) we pass in an object. Use the key to d
 selector on which fields the validations in the value are processed.
 Validations declared like this don't need the `validate()` indicator.
 
-    $('#fields-in-call').ketchup({}, {
+    $('#fields-in-call').greenlight({}, {
       '.required'    : 'required',              //all fields in the form with the class 'required'
       '#fic-username': 'username, minlength(3)' //one field in the form with the id 'fic-username'
     });
@@ -117,7 +117,7 @@ Validations declared like this don't need the `validate()` indicator.
 Validate on different events
 ----------------------------
 
-By default Ketchup listens to the `blur` event on form fields. You can overwrite that behaviour
+By default Greenlight listens to the `blur` event on form fields. You can overwrite that behaviour
 for every field in the options, and you can overwrite it separately for a single field.
 
 ### Your HTML
@@ -132,14 +132,14 @@ are strings jQuery's `bind()` accepts.
           <input type="text" id="ve-username" data-validate="validate(required, minlength(3)) on(keyup focus)" />
         </li>
         <li>
-          <input type="submit" value="Is Tasty?" />
+          <input type="submit" value="Has a Greenlight?" />
         </li>
       </ul>
     </form>
 
 ### Your Javascript
 
-    $('#validation-events').ketchup({
+    $('#validation-events').greenlight({
       validateEvents: 'dblclick'
     });
 
@@ -148,7 +148,7 @@ are strings jQuery's `bind()` accepts.
       argument is  the validations string  and  the
       second is the events string. Like so:
 
-    $('#validation-events').ketchup({}, {
+    $('#validation-events').greenlight({}, {
       '#ve-username': ['required, minlength(3)', 'keyup focus']
     });*/
 
@@ -179,7 +179,7 @@ Included Validations
 Write your own validations
 --------------------------
 
-You can write your own validation functions for Ketchup. A validation function must return a
+You can write your own validation functions for Greenlight. A validation function must return a
 boolean, `true` if the field validates fine and `false` if it fails to validate.
 
 Validations pass in at least three arguments:
@@ -190,12 +190,12 @@ Validations pass in at least three arguments:
 
 After these three arguments you can declare the arguments for your validation. In this example the
 `word` validation has two arguments, `word1` and `word2`. You pass in the arguments in your validation call like
-`word(ketchup, mustard)`. Now 'ketchup' is the `word1` argument and so on.
+`word(greenlight, redlight)`. Now 'greenlight' is the `word1` argument and so on.
 
-Validation messages have `{argN}` placeholders for your arguments. `Is {arg1}` would become `Is ketchup`.
+Validation messages have `{argN}` placeholders for your arguments. `Is {arg1}` would become `Is greenlight`.
 
 A validation can have a initial callback, optionally passed in as function as the second argument. Use this to bind
-elements with the same name, checkboxes for example. Or apply a class to the field to style Ketchup enabled fields.
+elements with the same name, checkboxes for example. Or apply a class to the field to style Greenlight enabled fields.
 The initial callback passes in two arguments, `form` and `el`. You already know what these are.
 
 ### Your HTML
@@ -203,18 +203,18 @@ The initial callback passes in two arguments, `form` and `el`. You already know 
     <form id="own-validation" action="index.html">
       <ul>
         <li>
-          <label for="ov-word">Ketchup or Mustard</label>
-          <input type="text" id="ov-word" data-validate="validate(word(ketchup, mustard))" />
+          <label for="ov-word">Greenlight or Mustard</label>
+          <input type="text" id="ov-word" data-validate="validate(word(greenlight, redlight))" />
         </li>
         <li>
-          <input type="submit" value="Is Tasty?" />
+          <input type="submit" value="Has a Greenlight?" />
         </li>
       </ul>
     </form>
 
 ### Your Javascript
 
-    $.ketchup.validation('word', 'Either "{arg1}" or "{arg2}"', function(form, el, value, word1, word2) {
+    $.greenlight.validation('word', 'Either "{arg1}" or "{arg2}"', function(form, el, value, word1, word2) {
       if(value == word1 || value == word2) {
         return true;
       } else {
@@ -224,7 +224,7 @@ The initial callback passes in two arguments, `form` and `el`. You already know 
       //initial callback, this is optional
     });
 
-    $('#own-validation').ketchup();
+    $('#own-validation').greenlight();
 
 
 Helpers for your validations
@@ -240,34 +240,34 @@ Helpers are repeating functions you can use in your validations via `this`.
  * `isDate(value)` - Check if the `value` is a valid date. Returns `true`/`false`.
  * `inputsWithName(form, el)` - Get all elements in the `form` with the name of `el`. Returns a jQuery object.
  * `inputsWithNameNotSelf(form, el)` - Get all elements in the `form` with the name of `el` but not itself. Returns a jQuery object.
- * `getKetchupEvents(el)` - Get all events Ketchup has used on the `el`. Returns a String.
- * `bindBrothers(form, el)` - Bind all elements in the `form` with `el`'s name to `el`'s Ketchup events. This is helpful on checkboxes and co. Returns `undefined`.
+ * `getGreenlightEvents(el)` - Get all events Greenlight has used on the `el`. Returns a String.
+ * `bindBrothers(form, el)` - Bind all elements in the `form` with `el`'s name to `el`'s Greenlight events. This is helpful on checkboxes and co. Returns `undefined`.
 
 ### Your HTML
 
     <form id="validation-helper" action="index.html">
       <ul>
         <li>
-          <label for="vh-email">Your E-Mail (must contain 'ketchup')</label>
-          <input type="text" id="vh-email" data-validate="validate(ketchupEmail)" />
+          <label for="vh-email">Your E-Mail (must contain 'greenlight')</label>
+          <input type="text" id="vh-email" data-validate="validate(greenlightEmail)" />
         </li>
         <li>
-          <input type="submit" value="Is Tasty?" />
+          <input type="submit" value="Has a Greenlight?" />
         </li>
       </ul>
     </form>
 
 ### Your Javascript
 
-    $.ketchup.validation('ketchupEmail', 'Must be a valid e-mail and contain "ketchup"', function(form, el, value) {
-      if(this.isEmail(value) && this.contains(value.toLowerCase(), 'ketchup')) {
+    $.greenlight.validation('greenlightEmail', 'Must be a valid e-mail and contain "greenlight"', function(form, el, value) {
+      if(this.isEmail(value) && this.contains(value.toLowerCase(), 'greenlight')) {
         return true;
       } else {
         return false;
       }
     });
     
-    $('#validation-helper').ketchup();
+    $('#validation-helper').greenlight();
 
 
 Write your own helpers
@@ -285,30 +285,30 @@ to `helper()`.
           <input type="text" id="oh-rand1" data-validate="validate(random)" />
         </li>
         <li>
-          <label for="oh-rand2">Words are validated randomly: ketchup, mustard</label>
-          <input type="text" id="oh-rand2" data-validate="validate(randomWord(ketchup, mustard))" />
+          <label for="oh-rand2">Words are validated randomly: greenlight, redlight</label>
+          <input type="text" id="oh-rand2" data-validate="validate(randomWord(greenlight, redlight))" />
         </li>
         <li>
-          <input type="submit" value="Is Tasty?" />
+          <input type="submit" value="Has a Greenlight?" />
         </li>
       </ul>
     </form>
 
 ### Your Javascript
 
-    $.ketchup.helper('randomNumber', function(min, max) {
+    $.greenlight.helper('randomNumber', function(min, max) {
       return (min + parseInt(Math.random() * (max - min + 1)));
     });
     
-    $.ketchup.validation('random', 'Not this time...', function(form, el, value) {
+    $.greenlight.validation('random', 'Not this time...', function(form, el, value) {
       return (this.randomNumber(0, 1) ? true : false);
     });
     
-    $.ketchup.validation('randomWord', 'Try the other word', function(form, el, value, word1, word2) {      
+    $.greenlight.validation('randomWord', 'Try the other word', function(form, el, value, word1, word2) {      
       return (this.randomNumber(0, 1) ? word1 : word2) == value;
     });
 
-    $('#own-helper').ketchup();
+    $('#own-helper').greenlight();
     
 
 Set the messages for your validations
@@ -320,12 +320,12 @@ two choices.
 
 Either overwrite single messages:
 
-    $.ketchup.message('word', 'Guess the word!');
+    $.greenlight.message('word', 'Guess the word!');
 
-Or pass in an object to the `messages()` method (you can copy and paste them from the last version of Ketchup).
+Or pass in an object to the `messages()` method (you can copy and paste them from the last version of Greenlight).
 Note that only declared validation messages gets overwritten, the others are still set.
 
-    $.ketchup.messages({
+    $.greenlight.messages({
       required : 'Something?',
       minlength: '>= {arg1}'
     });
@@ -362,12 +362,12 @@ creating, showing and hiding the error container and add error messages complete
 
 ### Your CSS
 
-    .ketchup-custom {
+    .greenlight-custom {
       line-height: 1em;
       display: none;
     }
 
-    .ketchup-custom li {
+    .greenlight-custom li {
       font-size: 10px;
       text-transform: uppercase;
       text-shadow: 1px 1px 0 #9F4631;
@@ -391,18 +391,18 @@ creating, showing and hiding the error container and add error messages complete
           <input type="text" id="cb-username" data-validate="validate(required, minlength(3))" />
         </li>
         <li>
-          <input type="submit" value="Is Tasty?" />
+          <input type="submit" value="Has a Greenlight?" />
         </li>
       </ul>
     </form>
 
 ### Your Javascript
 
-    $.ketchup
+    $.greenlight
     
     .createErrorContainer(function(form, el) {
       return $('<ul/>', {
-               'class': 'ketchup-custom'
+               'class': 'greenlight-custom'
              }).insertAfter(el);
     })
     
@@ -424,60 +424,60 @@ creating, showing and hiding the error container and add error messages complete
       container.slideUp('fast');
     });
 
-    $('#custom-behavior').ketchup({
+    $('#custom-behavior').greenlight({
       validateEvents: 'blur focus keyup'
     });
 
 
-Ketchup Events
+Greenlight Events
 --------------
 
 ### Your HTML
 
-    <form id="ketchup-events" action="index.html">
+    <form id="greenlight-events" action="index.html">
       <ul>
         <li>
-          <label for="ke-username">Username</label>
-          <input type="text" id="ke-username" data-validate="validate(required, username, minlength(5))" />
+          <label for="gl-username">Username</label>
+          <input type="text" id="gl-username" data-validate="validate(required, username, minlength(5))" />
         </li>
         <li>
-          <input type="submit" value="Is Tasty?" />
+          <input type="submit" value="Has a Greenlight?" />
         </li>
       </ul>
     </form>
 
 ### Your Javascript
     
-    $('#ketchup-events')
-      .bind('formIsValid', function(event, form) {
+    $('#greenlight-events')
+      .on('formIsValid', function(event, form) {
         //do whatever when the form is valid
         //form - the form that is valid (jQuery Object)
       })
-      .bind('formIsInvalid', function(event, form) {
+      .on('formIsInvalid', function(event, form) {
         //do whatever when the form is invalid
         //form - the form that is invalid (jQuery Object)
       })
-      .bind('fieldIsValid', function(event, form, el) {
+      .on('fieldIsValid', function(event, form, el) {
         //do whatever if a field is valid
         //form - the form where the el is located (jQuery Object)
         //el   - the element that is valid (jQuery Object)
       })
-      .bind('fieldIsInvalid', function(event, form, el) {
+      .on('fieldIsInvalid', function(event, form, el) {
         //do whatever if a field is invalid
         //form - the form where the el is located (jQuery Object)
         //el   - the element that is invalid (jQuery Object)
       })
-      .ketchup();
+      .greenlight();
 
 
 Check if the form and fields are valid from outside
 ---------------------------------------------------
 
-You can use Ketchup's internal function to check if a form or a field is valid from your own script without
-triggering the validation container. `el.ketchup('isValid')` returns `true` if the form/field (`el`) is valid,
+You can use Greenlight's internal function to check if a form or a field is valid from your own script without
+triggering the validation container. `el.greenlight('isValid')` returns `true` if the form/field (`el`) is valid,
 otherwise it returns `false`.
 
-If you want to trigger the validation from your script use `el.ketchup('validate')` where `el` is the field.
+If you want to trigger the validation from your script use `el.greenlight('validate')` where `el` is the field.
 
 ### Your CSS
     #from-outside { position: relative; }
@@ -492,7 +492,7 @@ If you want to trigger the validation from your script use `el.ketchup('validate
     #fo-errors .valid { background: #9ADF61; }
     #fo-errors .invalid { background: #F46644; }
     
-    #from-outside .ketchup-custom { position: absolute; left: -30000px; } /* hide ketchup errors on blur and form submit */
+    #from-outside .greenlight-custom { position: absolute; left: -30000px; } /* hide greenlight errors on blur and form submit */
 
 ### Your HTML
 
@@ -507,7 +507,7 @@ If you want to trigger the validation from your script use `el.ketchup('validate
           <input type="text" id="fo-username" data-validate="validate(required, username, minlength(5))" />
         </li>
         <li>
-          <input type="submit" value="Is Tasty?" />
+          <input type="submit" value="Has a Greenlight?" />
         </li>
       </ul>
     </form>
@@ -520,12 +520,12 @@ If you want to trigger the validation from your script use `el.ketchup('validate
         result   = $('<ul/>', { id: 'fo-errors' }).appendTo(form);
     
     form
-      .ketchup()
+      .greenlight()
       .find('input').keyup(function() {
         result.html('');
       
         $.each([form, mail, username], function(index, el) {
-          var valid = el.ketchup('isValid') ? 'valid' : 'invalid';
+          var valid = el.greenlight('isValid') ? 'valid' : 'invalid';
         
           $('<li/>', {
             'class': valid,
@@ -544,16 +544,19 @@ Default Options
     eventIndicator      : 'on',                           //in the validation string this indicates the events when validations get fired eg on(blur)
     validateEvents      : 'blur',                         //the default event when validations get fired on every field
     validateElements    : ['input', 'textarea', 'select'],//check this fields in the form for a validation string on the attribute
-    createErrorContainer: null,                           //function to create the error container (can also be set via $.ketchup.createErrorContainer(fn))
-    showErrorContainer  : null,                           //function to show the error container (can also be set via $.ketchup.showErrorContainer(fn))
-    hideErrorContainer  : null,                           //function to hide the error container (can also be set via $.ketchup.hideErrorContainer(fn))
-    addErrorMessages    : null                            //function to add error messages to the error container (can also be set via $.ketchup.addErrorMessages(fn))
+    createErrorContainer: null,                           //function to create the error container (can also be set via $.greenlight.createErrorContainer(fn))
+    showErrorContainer  : null,                           //function to show the error container (can also be set via $.greenlight.showErrorContainer(fn))
+    hideErrorContainer  : null,                           //function to hide the error container (can also be set via $.greenlight.hideErrorContainer(fn))
+    addErrorMessages    : null                            //function to add error messages to the error container (can also be set via $.greenlight.addErrorMessages(fn))
 
 
 License and Copyright
 ---------------------
 
-The jQuery Ketchup Plugin is dual licensed under the [GPL](http://www.gnu.org/licenses/gpl.html
+The Greenlight Plugin is dual licensed under the [GPL](http://www.gnu.org/licenses/gpl.html
 ) and [MIT](http://www.opensource.org/licenses/mit-license.php) licenses.
 
-(c) 2011 Sebastian Senf - [http://mustardamus.com](http://mustardamus.com) - [http://usejquery.com](http://usejquery.com) - [@mustardamus](http://twitter.com/mustardamus)
+Copyright (c) 2017 by Dave Gillem / http://davegillem.com
+ 
+Original Copyright (c) 2011 by Sebastian Senf / forked from jQuery Ketchup Plugin
+[http://redlightamus.com](http://redlightamus.com) - [http://usejquery.com](http://usejquery.com) - [@redlightamus](http://twitter.com/redlightamus)
