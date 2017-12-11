@@ -1,4 +1,4 @@
-Greenlight Form Validation - jQuery Plugin
+![alt text](https://raw.githubusercontent.com/davegillem/greenlight/master/img/greenlight_sm.png "Greenlight Logo") Greenlight Form Validation - jQuery Plugin
 =============================================
 
 Greenlight is a small (6.2KB minified & gzipped) jQuery Plugin that helps you to validate your forms. Originally forked from the awesome Ketchup Validation Plugin (https://github.com/mustardamus/ketchup-plugin) this has been extended to inlude more validations 'out of the box', ability to provide runtime error messages for localization, as well as being updated to current versions of jQuery syntax. 
