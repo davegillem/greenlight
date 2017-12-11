@@ -32,8 +32,12 @@ $.greenlight
 .validation('range', 'Must be between {arg1} and {arg2}.', function (form, el, value, min, max) {
     return (this.isNumber(value) && +value >= +min && +value <= +max);
 })
-.validation('number', 'Must be a number.', function (form, el, value) {
-    return !isNaN(parseFloat(value)) && isFinite(value);
+.validation('number', 'Must be a number.', function (form, el, value, formatted) {
+	if (formatted){
+		return (/^-?(?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d+)?$/).test(value);
+	}else {
+		return !isNaN(parseFloat(value)) && isFinite(value);
+	}
 })
 .validation('email', 'Must be a valid E-Mail.', function (form, el, value) {
     return this.isEmail(value);

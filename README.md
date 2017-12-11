@@ -1,17 +1,16 @@
 Greenlight Form Validation - jQuery Plugin
 =============================================
 
-Greenlight is a small (3.4KB minified & gzipped) jQuery Plugin that helps you to validate your forms.
-Out of the box it has 18 basic validations and a bubble like style. But truly this
+Greenlight is a small (6.2KB minified & gzipped) jQuery Plugin that helps you to validate your forms. Originally forked from the awesome Ketchup Validation Plugin (https://github.com/mustardamus/ketchup-plugin) this has been extended to inlude more validations 'out of the box', ability to provide runtime error messages for localization, as well as being updated to current versions of jQuery syntax. 
+Out of the box there are 30 basic validations and either an inline (default) or bubble error style. But truly this
 Plugin wants to be hacked to fit your needs. Easily write your own validations and overwrite/extend
-the default behaviour. Bubbles are not for everyone...
+the default behaviour. There are also default error message text supplied with each validation, however you can provide your own text during the initial setup for any of the validation error displays.
 
 
 Default Behavior
 ----------------
 
-If you like the style of the bubbles and all validations you need are already included
-you can get this Plugin up and running like so:
+If all of validations you need are already included you can get this Plugin up and running like so:
 
 ### Your HTML Header
 
@@ -22,12 +21,12 @@ along with the latest jQuery version in your HTML header.
     <html>
       <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
-        <title>Yammie</title>
+        <title>Greenlight Validation Tester</title>
 
-        <link rel="stylesheet" type="text/css" media="screen" href="css/jquery.greenlight.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="css/greenlight.css" />
 
-        <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
-        <script type="text/javascript" src="js/jquery.greenlight.all.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="js/greenlight-min.js"></script>
       </head>
 
       <body>
@@ -155,25 +154,66 @@ are strings jQuery's `bind()` accepts.
 
 Included Validations
 --------------------
+ * `contain(word)`         - The field must contain `word`.
+ * `custom`                - The field value must pass the supplied check
+	* `validate(custom(Error message to display, [REGEX_PATTERN])`
+		* ex: `validate(custom(I am an error message, /^((?=(.*[\d]){2,})(?=(.*[a-z]){2,})(?=(.*[A-Z]){2,})(?=(.*[^\w\d\s]){2,})){8,30}.*$/)`
+ * `date`                  - _(Default)_ The field must be a valid date using the mm/dd/yyyy as well as mm/dd/yy format allowing / or - or . as separators
+ 	* `date(mmdd)`	- Matches just mm/dd allowing for the same separators listed above.
+ 	* `date(mmyy)` or date(mmyyyy)	- Matches just mm/yy or mm/yyyy allowing for the same separators listed above.
+ 	* `date(ddmmyy)` or date(ddmmyyyy)	- Matches just dd/mm/yy or dd/mm/yyyy allowing for the same separators listed above.
+ 	* `date(yyyymmdd)`	- Matches a (4) digit year followed by a (2) digit month followed by a (2) digit day allowing for the same separators listed above.
+ 	* `date(mmyyyy, true)` or `date(ddmmyyyy, true)` or `date(yyyymmdd, true)`  - _(Optional Parameter)_ by passing the optional boolean as true, you can force future dates and current day only. This option does however require a 4 digit year in order to make sure the date isnt in the past. In addition if no day is provided the current day will be used.  
+	_Note:_ If the optional parameter is set to true but the year format is set to only 2 digits the validation will succeed but no check for past date will be performed.
 
- * `required`              - The field is required.
- * `minlength(min)`        - The field must have a minimal length of `min` characters.
- * `maxlength(max)`        - The field must have a maximal length of `max` characters.
- * `rangelength(min, max)` - The field must have a length between `min` and `max` characters.
- * `min(min)`              - The field must have a minimal number of `min`.
- * `max(max)`              - The field must have a maximal number of `max`.
- * `range(min, max)`       - The field must have a number between `min` and `max`.
- * `number`                - The field must be a number.
  * `digits`                - The field must be a digit (full number).
  * `email`                 - The field must be a valid email.
- * `url`                   - The field must be a valid URL.
- * `username`              - The field must be a valid username.
+ * `ipAddress`             - The field value must be a valid IP Address
+ * `letters`			   - The field value must be uppercase letter, lowercase letters or white space characters
+ * `lettersAndNumbs`       - The field value must contain Letters and/or Numbers
  * `match(word)`           - The field must match the value `word`.
- * `contain(word)`         - The field must contain `word`.
- * `date`                  - The field must be a valid date.
- * `minselect(min)`        - At least `min` checkboxes with the same name must be selected.
- * `maxselect(max)`        - No more than `max` checkboxes with the same name must be selected.
+ * `matchField`            - Requires that another field contain the same `matchField` validation, a `data-twin` attribute to connect the values together (e.g. `data-twin="matchTest1"`) to allow for multiple match fields on the same page, contain the following classes `isMainTwin` (for the main field) and `isTwin` (for any field that must match the main field) and both field values must match exactly _(todo: make this class and data-attr added automatically)_
+ * `max(max)`              - The field must have a maximal number of `max` (ex. 10).
+ * `maxlength(max)`        - The field must have a maximal length of `max` characters (ex. 10 characters).
+ * `maxselect(max)`        - No more than `max` checkboxes with the same name must be selected (checkboxes, multi-select lists).
+ * `min(min)`              - The field must have a minimal number of `min` (ex. 4).
+ * `minlength(min)`        - The field must have a minimal length of `min` characters (ex. 4 characters).
+ * `minselect(min)`        - At least `min` checkboxes with the same name must be selected (checkboxes, multi-select lists).
+ * `notEmpty`              - The field cannot contain ONLY spaces
+ * `number`                - _(Default)_ The field must be a number.
+	* `number(true)`		   - _(Optional)_ If a value of true is passed, the field will expect a formatted number that allows for commas and decimals 
+ * `passStrength(strength)`- The field value must pass the provided strength check
+ 	* `[default]`	- If no setting (or anything other than the options allowed) is provided, it will default to checking for a max length of 6 characters
+	* `weak`		- >1 0-9, >1 a-z, >1 A-Z, between 6-30 characters in length
+	* `medium`		- >1 0-9, >1 a-z, >1 A-Z, >1 special, between 6-30 characters in length
+	* `strong`		- >2 0-9, >2 a-z, >2 A-Z, >2 special, between 8-30 characters in length
+	* `custom`		- allows parameters to be passed in for required elements
+		* `passStrength(custom, [NUMBERS], [LOWER], [UPPER], [SPECIAL], [MIN-LENGTH], [MAX-LENGTH], [ALLOWED], [MIN-LETTERS], [MAX-REPEATING], [ALLOWED-SPACES])`  
+		For example, the following `passStrength(custom, 8,20, 0, 1, 2, 3, 5, null, 3, false)`  
+		Would mean that the password should contain:
+			* A minimum length of 8 characters and a maximum length of 20 characters
+			* No numbers are required
+			* At least 1 lower-case character
+			* At least 2 upper-case characters
+			* At least 3 special characters (non-alpha or digits)
+			* At least 5 letters
+			* Will use default special character set (@#!$%^&+=)
+			* No more than 3 repeating characters
+			* Spaces are NOT allowed 
+
+ * `phone`                 - The field value must be a valid Phone Number
+ * `required`              - The field is required.
+ * `range(min, max)`       - The field must have a number between `min` and `max` (ex. Between 4-10).
+ * `rangelength(min, max)` - The field must have a length between `min` and `max` characters (ex. Between 4-10 characters).
  * `rangeselect(min, max)` - Between `min` and `max` checkboxes with the same name must be selected.
+ * `ssn`              	   - The field value must be a valid Social Security number
+ 	* `ssn(true)`		   - _(Optional)_ Matches just the last 4 numbers of the SSN 
+ * `unique`                - The field values must be unique
+ * `url`                   - The field must be a valid URL.
+ * `username`              - The field must be a valid username, allows for letters numbers and certain special characters
+ * `usPhone`               - The field value must be a valid US formatted Phone Number allowing for - . And () as separators as well as a space
+ * `usStateAbbr`           - The field value must be a valid US State Abbreviation
+ * `usZip`                 - The field value must be a valid US Zip Code (allows for 5 digits or 9 digits with hyphen, fails on anything else)
 
 
 Write your own validations
@@ -232,16 +272,26 @@ Helpers for your validations
 
 Helpers are repeating functions you can use in your validations via `this`.
 
- * `isNumber(value)` - Check if the `value` is a valid number. Returns `true`/`false`.
- * `contains(value, word)` - Check if the `value` contains `word`. Returns `true`/`false`.
- * `isEmail(value)` - Check if the `value` is a valid email. Returns `true`/`false`.
- * `isUrl(value)` - Check if the `value` is a valid URL. Returns `true`/`false`.
- * `isUsername(value)` - Check if the `value` is a valid username. Returns `true`/`false`.
- * `isDate(value)` - Check if the `value` is a valid date. Returns `true`/`false`.
- * `inputsWithName(form, el)` - Get all elements in the `form` with the name of `el`. Returns a jQuery object.
+ * `bindBrothers(form, el)` 		- Bind all elements in the `form` with `el`'s name to `el`'s Greenlight events. This is helpful on checkboxes and co. Returns `undefined`.
+ * `bindTwins(form, el)`			- Bind all elements in the `form` with `el`'s `data-twin` attribute to `el`'s Greenlight events. Returns `undefined`.
+ * `bindUnique(form, el)`			- Bind all elements in the `form` with `el`'s name to `el`'s Greenlight events. Returns `undefined`.
+ * `checkPWStrength(value, num, lower, upper, special, min, max, allowedChars, letters, repeat, spaces)` - Check if the `value` passes the supplied requirements. Returns `true`/`false`.
+ * `contains(value, word)` 			- Check if the `value` contains `word`. Returns `true`/`false`.
+ * `getGreenlightEvents(el)` 		- Get all events Greenlight has used on the `el`. Returns a String.
+ * `inputsWithName(form, el)` 		- Get all elements in the `form` with the name of `el`. Returns a jQuery object.
  * `inputsWithNameNotSelf(form, el)` - Get all elements in the `form` with the name of `el` but not itself. Returns a jQuery object.
- * `getGreenlightEvents(el)` - Get all events Greenlight has used on the `el`. Returns a String.
- * `bindBrothers(form, el)` - Bind all elements in the `form` with `el`'s name to `el`'s Greenlight events. This is helpful on checkboxes and co. Returns `undefined`.
+ * `inputsWithUnique(form, el)`			- Get all elements in the `form` with the name of `el`. Returns a jQuery object.
+ * `inputsWithUniqueNotSelf(form, el)`	- Get all elements in the `form` with the name of `el` but not itself. Returns a jQuery object.
+ * `inputTwin(form, el)`				- Get all elements in the `form` with `el`'s `data-twin` attribute. Returns a jQuery object.
+ * `isDate(value)` 					- Check if the `value` is a valid date. Returns `true`/`false`.
+ * `isEmail(value)` 				- Check if the `value` is a valid email. Returns `true`/`false`.
+ * `isIPAddress(value)`				- Check if the `value` is a valid IP Address. Returns `true`/`false`.
+ * `isNumber(value)` 				- Check if the `value` is a valid number. Returns `true`/`false`.
+ * `isPhone(value)`					- Check if the `value` is a valid Phone number. Returns `true`/`false`.
+ * `isUnique(form, el, value, caseInsensitive)` - Check if the 'el` `value` is unique when compared to the other elements in the form with matching validation. Also can allow for case insensitivity if `caseInsensitive` is set to `true`. Returns `true`/`false`.
+ * `isUrl(value)` 					- Check if the `value` is a valid URL. Returns `true`/`false`.
+ * `isUsername(value)` 				- Check if the `value` is a valid username. Returns `true`/`false`.
+ * `isUSPhone(value)`				- Check if the `value` is a valid US Phone number. Returns `true`/`false`.
 
 ### Your HTML
 
@@ -538,17 +588,39 @@ If you want to trigger the validation from your script use `el.greenlight('valid
 
 Default Options
 ---------------
+	attribute             : 'data-validate',              // look in that attribute for a validation string
+    addErrorMessages      : null			      // function to add error messages to the error container (can also be set via $.greenlight.addErrorMessages(fn))
+    bubbleErrorPosition   : 'right',		      // where the bubble error appears (right=top right corner, left=top left corner, side=right side of field)
+    createErrorContainer  : null,                         // function to create the error container (can also be set via $.greenlight.createErrorContainer(fn))
+    emptyValidClass       : 'emptyValid',                 // css class used to identify a field that is optional ^^ but is also empty which means its valid
+    errorDisplayType      : 'inline',                     // accepts either 'inline' or 'bubble' for displaying validation errors
+    eventIndicator        : 'on',                         // in the validation string this indicates the events when validations get fired eg on(blur)
+    fieldErrorClass       : 'fieldError',                 // ability to add a class to the field for CSS modifications to display on error
+    fieldValidClass       : 'fieldValid',                 // ability to add a class to the field for CSS modifications to display on error
+    hideErrorContainer    : null,                         // function to hide the error container (can also be set via $.greenlight.hideErrorContainer(fn))
+    optionalClass         : 'optRequired',                // css class used to identify a field that is optional but requires validation check if it isnt empty
+    parentErrorClass      : 'parentError',                // ability to add a class to the parent tag of the field for CSS modifications to display on error
+    parentValidClass      : 'parentValid',                // ability to add a class to the parent tag of the field for CSS modifications to display on error
+    showErrorContainer    : null,                         // function to show the error container (can also be set via $.greenlight.showErrorContainer(fn))
+    validateElements      : ['input', 'textarea', 'select'],  // check this fields in the form for a validation string on the attribute
+    validateEvents        : 'blur',                       // the default event when validations get fired on every field
+    validateIndicator     : 'validate',                   // in the validation string this indicates the validations eg validate(required)
 
-    attribute           : 'data-validate',                //look in that attribute for an validation string
-    validateIndicator   : 'validate',                     //in the validation string this indicates the validations eg validate(required)
-    eventIndicator      : 'on',                           //in the validation string this indicates the events when validations get fired eg on(blur)
-    validateEvents      : 'blur',                         //the default event when validations get fired on every field
-    validateElements    : ['input', 'textarea', 'select'],//check this fields in the form for a validation string on the attribute
-    createErrorContainer: null,                           //function to create the error container (can also be set via $.greenlight.createErrorContainer(fn))
-    showErrorContainer  : null,                           //function to show the error container (can also be set via $.greenlight.showErrorContainer(fn))
-    hideErrorContainer  : null,                           //function to hide the error container (can also be set via $.greenlight.hideErrorContainer(fn))
-    addErrorMessages    : null                            //function to add error messages to the error container (can also be set via $.greenlight.addErrorMessages(fn))
+You can also _(optionally)_ provide your own error mesages at runtime to allow for custom error messages based on language , local or any number of use-cases. Just pass an object using the validation name as the property and the new error string as the value into the `$.greenlight.messages();` method.
 
+For example:
+------------  
+	var textKeys : {
+				date                             : 'Must be a valid date.',
+				email                            : 'Must be a valid E-Mail.',
+				letters                          : 'Must be letters.',
+				lettersAndNums                   : 'Must contain Letters and Numbers.',
+				matchField                       : 'These fields must match.',
+				number                           : 'Must be a number.',
+				range                            : 'Must be between {arg1} and {arg2}.'
+			}
+	$.greenlight.messages(textKeys);
+As you can see above, you can also use `{arg#}` to have the validation parameter be used inside the error message. The `#` will be the argument position when calling the validation method. for example if you assigned a validation using `range(4,12)` and used the textKey listed above, your error would appear as  **_`Must be between 4 and 12.`_** (replacing the `{arg#}` values with the validation parameters).
 
 License and Copyright
 ---------------------
