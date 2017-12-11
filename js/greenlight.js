@@ -621,7 +621,7 @@
                 });
                 return;
             } else if (type === 'add'){
-                list = container.children('ul').empty();//.html('');
+                list = container.children('ul').empty();
                 for (i = 0; i < messageLen; i++) {
                     $('<li/>', {
                                 text: unescape(messages[i])
@@ -633,7 +633,7 @@
         },
         useInlineError          : function (type, form, el, container, messages){
             var i, list,
-                fieldType   = el.attr('type'),
+                fieldType   = el.attr('type') === undefined ? undefined : el.attr('type').toLowerCase(),
                 fieldParent = el.parent(),
                 errContainer= container,
                 messageLen  = messages ? messages.length : 0;
