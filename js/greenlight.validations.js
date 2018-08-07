@@ -288,8 +288,9 @@ $.greenlight
         valMax      = max ? '{,'+max+'}' : '',
         valLetters  = letters ? '{'+letters+',}' : '',
         allowed     = allowedChars, // allowed special characters
-        repeating   = repeat || '',
-        allowSpaces = spaces === 'true' ? '(^[\\S ]+$)' : '(^[\\S]+$)';
+		repeating   = repeat || '',
+		basicAllowed= 'a-zA-Z0-9'+allowed,
+		allAllowed = spaces === 'true' ? basicAllowed+' ' : basicAllowed;
 
     if (min && max){
         valMinMax   = '{'+min+','+max+'}';
@@ -301,7 +302,7 @@ $.greenlight
         valMinMax   = '';
     }
 
-    regString = '(?!.*?(.)1{'+repeating+',})(?=.'+valMinMax+')(?=(.*[\\d])'+valNum+')(?=(.*[a-z])'+valLower+')(?=(.*[A-Z])'+valUpper+')(?=(.*[a-zA-Z])'+valLetters+')(?=(.*['+allowed+'])'+valSpecial+')'+allowSpaces;
+    regString = '(?!.*?(.)\\1{'+repeating+',})(?=.'+valMinMax+')(?=(.*[\\d])'+valNum+')(?=(.*[a-z])'+valLower+')(?=(.*[A-Z])'+valUpper+')(?=(.*[a-zA-Z])'+valLetters+')(?=(.*['+allowed+'])'+valSpecial+')(^['+allAllowed+']+$)';
 
     passReg = new RegExp(regString);
     return passReg.test(value);
